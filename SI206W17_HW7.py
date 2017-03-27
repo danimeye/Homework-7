@@ -72,7 +72,6 @@ def get_user_tweets(user):
 		cache_file.close()
 	return twitter_results
 
-
 # Write code to create/build a connection to a database: tweets.db,
 # And then load all of those tweets you got from Twitter into a database table called Tweets, with the following columns in each row:
 
@@ -114,7 +113,6 @@ for tweet in umsi_tweets:
 conn.commit()
 
 # You can check out whether it worked in the SQLite browser! (And with the tests.)
-
 
 ## [PART 2] - SQL statements
 
