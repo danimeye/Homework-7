@@ -99,7 +99,7 @@ cur.execute(table_spec)
 
 # Invoke the function you defined above to get a list that represents a bunch of tweets from the UMSI timeline. Save those tweets in a variable called umsi_tweets.
 
-umsi_tweets = get_user_tweets("UMSI")
+umsi_tweets = get_user_tweets("umsi")
 # print(umsi_tweets)
 # Use a for loop, the cursor you defined above to execute INSERT statements, that insert the data from each of the tweets in umsi_tweets into the correct columns in each row of the Tweets database table.
 
@@ -123,18 +123,26 @@ conn.commit()
 
 # Select from the database all of the TIMES the tweets you collected were posted and fetch all the tuples that contain them in to the variable tweet_posted_times.
 
+q1 = "SELECT time_posted FROM Tweets"
+cur.execute(q1)
+tweet_posted_times = cur.fetchall()
 
 # Select all of the tweets (the full rows/tuples of information) that have been retweeted MORE than 2 times, and fetch them into the variable more_than_2_rts.
 
-
+q2 = "SELECT * FROM Tweets WHERE retweets > 2"
+cur.execute(q2)
+more_than_2_rts = cur.fetchall()
+print(more_than_2_rts)
 
 # Select all of the TEXT values of the tweets that are retweets of another account (i.e. have "RT" at the beginning of the tweet text). Save the FIRST ONE from that group of text values in the variable first_rt. Note that first_rt should contain a single string value, not a tuple.
 
-
+q3 = "SELECT tweet_text FROM Tweets WHERE instr(tweet_text, 'RT')"
+cur.execute(q3)
+first_rt = cur.fetchone()[0]
 
 # Finally, done with database stuff for a bit: write a line of code to close the cursor to the database.
 
-
+conn.close()
 
 ## [PART 3] - Processing data
 
@@ -150,9 +158,9 @@ conn.commit()
 
 # If you want to challenge yourself here -- this function definition (what goes under the def statement) CAN be written in one line! Definitely, definitely fine to write it with multiple lines, too, which will be much easier and clearer.
 
+def get_twitter_users(tweet):
 
-
-
+	return set(twit_user.strip("@") for twit_user in re.findall(r'@\w+', tweet))
 
 #########
 print("*** OUTPUT OF TESTS BELOW THIS LINE ***")
